@@ -1,18 +1,10 @@
 package com.trello;
 
-public class Waiters extends WebDriverSettings{
+public class Waiters {
 
-    public static void waitForNSeconds(int n, String reason) {
-        waitMilliseconds(n * 1000, reason);
-    }
-
-    public static void waitForNSeconds(int n) {
-        waitForNSeconds(n, "wait");
-    }
-
-    public static void waitMilliseconds(int milliseconds, String reason) {
+    public static void waitSeconds(int seconds) {
         try {
-            Thread.sleep(milliseconds);
+            Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             throw new Error("got interrupted:" + e.getMessage(), e);
         }
