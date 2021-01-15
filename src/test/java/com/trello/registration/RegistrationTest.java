@@ -2,6 +2,9 @@ package com.trello.registration;
 
 import static com.trello.Waiters.waitSeconds;
 
+import com.trello.BoardPage;
+import com.trello.LogInPage;
+import com.trello.RegistrationPage;
 import com.trello.Waiters;
 
 import org.openqa.selenium.WebElement;
@@ -19,35 +22,20 @@ import java.util.List;
 
 public class RegistrationTest {
 
+    private ChromeDriver driver;
+    RegistrationPage registrationPage = new RegistrationPage(driver);
 
-    public Actions action;
 
-//    @BeforeClass
-//    public void webDriver() {
-//        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-//        ChromeDriver driver = new ChromeDriver();
-//
-//    }
-
-//    @BeforeMethod
-//    public void openSignUpPage() {
-//        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-//        ChromeDriver driver = new ChromeDriver();
-//
-//
-//    }
+    @BeforeClass
+    public void webDriver() {
+        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
+//        driver = new ChromeDriver();
+    }
 
     @AfterMethod
     public void signOffFromTrello() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-        ChromeDriver driver = new ChromeDriver();
-
-        List<WebElement> openMemberMenu = driver.findElementsByXPath(".//button[contains(@aria-label, 'Open Member Menu')]");
-
-        if (openMemberMenu.size() > 0) {
-            openMemberMenu.get(0).click();
-            driver.findElementByLinkText("Sign Off").click();
-        }
+        BoardPage boardPage = new BoardPage(driver);
+        boardPage.logOutUser();
     }
 
     @Test
@@ -61,40 +49,28 @@ public class RegistrationTest {
 
     @Test
     public void signUpNewUserInvalidEmail() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-        ChromeDriver driver = new ChromeDriver();
-
-        driver.findElementById("email").sendKeys("workboris1@gmail");
-        driver.findElementById("signup-submit").click();
+        String emailUser = "workboris1@gmail";
+        registrationPage.firstSignUpPage(emailUser);
         waitSeconds(3);
-        String message = driver.findElementById("error").getText();
-        Assert.assertEquals(message,"Invalid email");
+
+        Assert.assertEquals(registrationPage.getErrorMessage(),"Invalid email");
     }
 
     @Test
     public void signUpNewUserValidScenario() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-        ChromeDriver driver = new ChromeDriver();
+        RegistrationPage registrationPage = new RegistrationPage(driver);
+        String emailUser = "workboris1+" + System.currentTimeMillis() + "@gmail.com";
+        String passwordUser = "qwERty"+System.currentTimeMillis();
+        String nameUser = "Borys";
+        String teamName = "My first test team";
 
-        driver.get("https://trello.com/");
-        driver.findElementByLinkText("Sign Up").click();
-        waitSeconds(4);
-        driver.findElementById("email").sendKeys("workboris1+" + System.currentTimeMillis() + "@gmail.com");
-        driver.findElementById("signup-submit").click();
-        waitSeconds(4);
 
-        String fieldPlaceHolder = driver.findElementById("displayName").getAttribute("placeholder");
-        Assert.assertEquals(fieldPlaceHolder, "Enter full name");
+        registrationPage.firstSignUpPage(emailUser);
+        Assert.assertEquals(registrationPage.nameField.getAttribute("placeholder"), "Enter full name");
 
-        driver.findElementById("displayName").sendKeys("Borys");
-        String password = "qwERty"+System.currentTimeMillis();
-        driver.findElementById("password").sendKeys(password);
-        driver.findElementById("signup-submit").click();
+        registrationPage.secondSignUpPage(passwordUser, nameUser);
 // captcha
-        driver.findElementById("moonshotCreateTeam").sendKeys("My first test team");
-        driver.findElementByClassName("nch-select").click();
-        driver.findElementByXPath(".//div[@id='react-select-2-option-0']/li").click();
-        driver.findElementByXPath(".//button[@type='submit']").click();
+        registrationPage.thirdSignUpPage(teamName);
         waitSeconds(4);
 
         String textButton = driver.findElementByXPath(".//button[@data-test-id='moonshot-try-bc-free-trial']").getText();

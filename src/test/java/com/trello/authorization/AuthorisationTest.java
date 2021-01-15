@@ -1,69 +1,53 @@
 package com.trello.authorization;
 
-import com.trello.Waiters;
+import com.trello.BoardPage;
+import com.trello.LogInPage;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 public class AuthorisationTest {
 
-    @AfterMethod
-    public void signOffFromTrello() {
+    private ChromeDriver driver;
+    LogInPage logInPage = new LogInPage(driver);
+
+
+    @BeforeClass
+    public void webDriver() {
         System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-        ChromeDriver driver = new ChromeDriver();
-
-        List<WebElement> openMemberMenu = driver.findElementsByXPath(".//button[contains(@aria-label, 'Open Member Menu')]");
-
-        if (openMemberMenu.size() > 0) {
-            openMemberMenu.get(0).click();
-            driver.findElementByLinkText("Sign Off").click();
-        }
+        driver = new ChromeDriver();
     }
 
+    @AfterMethod
+    public void signOffFromTrello() {
+        BoardPage boardPage = new BoardPage(driver);
+        boardPage.logOutUser();
+    }
 
     @Test
     public void authorizationValidTest() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-        ChromeDriver driver = new ChromeDriver();
+        logInPage.logInExistedUser1();
 
-        driver.get("https://trello.com/");
-        driver.findElementByLinkText("Log In").click();
-        driver.findElementById("user").sendKeys("fesenko.b@icloud.com");
-        driver.findElementById("password").sendKeys("B0r1sTr3ll0");
-        driver.findElementById("login").click();
-        Waiters.waitSeconds(4);
         String title = driver.getTitle();
-        System.out.println(title);
         Assert.assertEquals(title, "Boards | Trello");
     }
 
     @Test
     public void emptyFieldsTest() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-        ChromeDriver driver = new ChromeDriver();
+        logInPage.logInNewUser("", "");
 
-        driver.get("https://trello.com/");
-        driver.findElementByLinkText("Log In").click();
-        String message = driver.findElementById("error").getText();
-
+        String message = logInPage.getTextErrorMessage();
         Assert.assertEquals(message, "Missing email");
     }
 
-        @Test
-        public void incorrectEmailTest() {
-            System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-            ChromeDriver driver = new ChromeDriver();
+    @Test
+    public void incorrectEmailTest() {
+        logInPage.logInNewUser("Test", " ");
 
-            driver.get("https://trello.com/");
-            driver.findElementByLinkText("Log In").click();
-            driver.findElementById("user").sendKeys("Test");
-            String message = driver.findElementById("error").getText();
-            Assert.assertEquals(message,"There isn't an account for this username");
+        String message = logInPage.getTextErrorMessage();
+        Assert.assertEquals(message,"There isn't an account for this username");
     }
 }
