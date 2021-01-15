@@ -1,5 +1,7 @@
 package com.trello;
 
+import static com.trello.Waiters.waitSeconds;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,19 +12,22 @@ public class RegistrationPage {
     @FindBy(linkText = "Sign Up")
     private WebElement signUpLink;
 
-    @FindBy(linkText = ".//input[@type= 'email']")
+    @FindBy(xpath = ".//input[@id= 'email']")
     private WebElement emailField;
 
-    @FindBy(xpath = ".//input[@id=\"signup-submit\"]")
-    private WebElement continueBtn;
+    @FindBy(xpath = ".//input[@id= 'signup-submit']")
+    private WebElement continueFirstPageBtn;
 
-    @FindBy(xpath = ".//input[@id=\"displayName\"]")
-    public WebElement nameField;
+    @FindBy(xpath = ".//input[@id= 'displayName']")
+    private WebElement nameField;
+
+    @FindBy(xpath = ".//button[@id= 'signup-submit']")
+    private WebElement continueSecondPageBtn;
 
     @FindBy(xpath = ".//input[@id= 'password']")
     private WebElement passwordField;
 
-    @FindBy(xpath = ".//input[@id= 'moonshotCreateTeam'")
+    @FindBy(xpath = ".//input[@id= 'moonshotCreateTeam']")
     private WebElement newTeamField;
 
     @FindBy(className = "nch-select")
@@ -31,11 +36,14 @@ public class RegistrationPage {
     @FindBy(xpath = ".//div[@id='react-select-2-option-0']/li")
     private WebElement firstTeamType;
 
-    @FindBy(xpath = ".//button[@type='submit']")
+    @FindBy(xpath = ".//button[@type= 'submit']")
     private WebElement continueBtnOnTeamPage;
 
     @FindBy(xpath = "//p[@class= 'error-message']")
     private WebElement errorMessage;
+
+    @FindBy(xpath = ".//button[@data-test-id= 'moonshot-try-bc-free-trial']")
+    private WebElement trialBtn;
 
     public RegistrationPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -43,28 +51,35 @@ public class RegistrationPage {
         signUpLink.click();
     }
 
-    public void firstSignUpPage(String userEmail) {
-        Waiters.waitSeconds(4);
+    public void setFirstSignUpPage(String userEmail) {
         emailField.sendKeys(userEmail);
-        continueBtn.submit();
-        Waiters.waitSeconds(4);
+        continueFirstPageBtn.submit();
+        waitSeconds(4);
     }
 
-    public void secondSignUpPage(String userPassword, String userName) {
+    public void setSecondSignUpPage(String userName, String userPassword) {
         nameField.sendKeys(userName);
         passwordField.sendKeys(userPassword);
-        continueBtn.click();
+        continueSecondPageBtn.click();
     }
 
-    public void thirdSignUpPage(String teamName) {
+    public void setThirdSignUpPage(String teamName) {
         newTeamField.sendKeys(teamName);
         teamTypesDropdown.click();
         firstTeamType.click();
         continueBtnOnTeamPage.click();
-        Waiters.waitSeconds(4);
+        waitSeconds(4);
     }
 
     public String getErrorMessage() {
         return errorMessage.getText();
+    }
+
+    public String getNameFieldAttribute(String attributeName) {
+        return  nameField.getAttribute(attributeName);
+    }
+
+    public String getButtonText() {
+        return  trialBtn.getText();
     }
 }

@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 public class AuthorisationTest {
 
     private ChromeDriver driver;
-    LogInPage logInPage = new LogInPage(driver);
 
 
     @BeforeClass
@@ -23,12 +22,13 @@ public class AuthorisationTest {
 
     @AfterMethod
     public void signOffFromTrello() {
-        BoardPage boardPage = new BoardPage(driver);
-        boardPage.logOutUser();
+        new BoardPage(driver).logOutUser();
     }
 
     @Test
     public void authorizationValidTest() {
+        LogInPage logInPage  = new LogInPage(driver);
+
         logInPage.logInExistedUser1();
 
         String title = driver.getTitle();
@@ -37,6 +37,8 @@ public class AuthorisationTest {
 
     @Test
     public void emptyFieldsTest() {
+        LogInPage logInPage  = new LogInPage(driver);
+
         logInPage.logInNewUser("", "");
 
         String message = logInPage.getTextErrorMessage();
@@ -45,6 +47,8 @@ public class AuthorisationTest {
 
     @Test
     public void incorrectEmailTest() {
+        LogInPage logInPage  = new LogInPage(driver);
+
         logInPage.logInNewUser("Test", " ");
 
         String message = logInPage.getTextErrorMessage();
