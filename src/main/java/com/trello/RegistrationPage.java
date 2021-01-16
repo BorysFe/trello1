@@ -12,6 +12,9 @@ public class RegistrationPage {
     @FindBy(linkText = "Sign Up")
     private WebElement signUpLink;
 
+    @FindBy(xpath = "//p[@class='quiet tos']")
+    private WebElement privacyPolicyText;
+
     @FindBy(xpath = ".//input[@id= 'email']")
     private WebElement emailField;
 
@@ -75,11 +78,11 @@ public class RegistrationPage {
         return errorMessage.getText();
     }
 
-    public String getNameFieldAttribute(String attributeName) {
-        return  nameField.getAttribute(attributeName);
+    public String getPrivacyPolicyText() {
+        return privacyPolicyText.getText();
     }
 
     public String getButtonText() {
-        return  trialBtn.getText();
+        return trialBtn.getText();
     }
 }

@@ -18,15 +18,15 @@ public class RegistrationTest {
 
     @BeforeClass
     public void webDriver() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
+        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
+                "//chromedriver87.exe");
         driver = new ChromeDriver();
-
     }
 
     @AfterMethod
     public void signOffFromTrello() {
         BoardPage boardPage = new BoardPage(driver);
-        boardPage.logOutUser();
+        boardPage.logOutIfAuthorised();
     }
 
     @AfterClass
@@ -36,11 +36,11 @@ public class RegistrationTest {
 
     @Test
     public void privacyPolicyTextCheck() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)//chromedriver87.exe");
-        ChromeDriver driver = new ChromeDriver();
+        RegistrationPage registrationPage = new RegistrationPage(driver);
 
-        String message = driver.findElementById("signup").getText();
-        Assert.assertEquals(message, "By signing up, you confirm that you've read and accepted our Terms of Service and Privacy Policy.");
+        Assert.assertEquals(registrationPage.getPrivacyPolicyText(), "By signing up, you confirm that you've read and" +
+                " accepted our Terms of Service " +
+                "and Privacy Policy.");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class RegistrationTest {
         registrationPage.setFirstSignUpPage(emailUser);
         waitSeconds(3);
 
-        Assert.assertEquals(registrationPage.getErrorMessage(),"Invalid email");
+        Assert.assertEquals(registrationPage.getErrorMessage(), "Invalid email");
     }
 
     @Test
@@ -61,7 +61,6 @@ public class RegistrationTest {
         String passwordUser = String.format("qwERty%s", System.currentTimeMillis());
         String nameUser = "Borys";
         String teamName = "My first test team";
-
 
         registrationPage.setFirstSignUpPage(emailUser);
         registrationPage.setSecondSignUpPage(nameUser, passwordUser);
