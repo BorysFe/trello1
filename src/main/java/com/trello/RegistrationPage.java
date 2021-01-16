@@ -50,11 +50,15 @@ public class RegistrationPage {
 
     public RegistrationPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        driver.get("https://trello.com");
+    }
+
+    public void openSignUpPage() {
         signUpLink.click();
+        waitSeconds(2);
     }
 
     public void setFirstSignUpPage(String userEmail) {
+        signUpLink.click();
         emailField.sendKeys(userEmail);
         continueFirstPageBtn.submit();
         waitSeconds(4);

@@ -59,7 +59,7 @@ public class BoardPage {
     @FindBy(xpath = ".//div[@class= 'js-react-root']//h1")
     private WebElement deleteBoardMessage;
 
-    private final String userBoard = (".//a[@title= '%s']");
+    private final String userBoard = ".//a[@title= '%s']";
 
     public BoardPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -67,7 +67,9 @@ public class BoardPage {
 
     public void logOutIfAuthorised() {
          if (openMemberMenuList.size() > 0) {
-            logOutUser();
+             if (openBoardsMenuButton.isDisplayed()) {
+                 logOutUser();
+             }
         }
     }
 
@@ -87,11 +89,11 @@ public class BoardPage {
     public void addNewBoard(String newBoardTitle) {
         openBoardsMenuButton.click();
         newBoardLink.click();
-        waitSeconds(4);
+        waitSeconds(2);
         newBoardTitleField.clear();
         newBoardTitleField.sendKeys(newBoardTitle);
         newBoardSubmit.click();
-        waitSeconds(3);
+        waitSeconds(2);
     }
 
     public String getClosedBoardMessage() {
@@ -129,7 +131,7 @@ public class BoardPage {
         return deleteBoardMessage.getText();
     }
 
-    public String getCustomUserBoardTitle(String eee) {
-        return String.format(userBoard, eee);
+    public String getCustomUserBoardTitle(String boardTitle) {
+        return String.format(userBoard, boardTitle);
     }
 }

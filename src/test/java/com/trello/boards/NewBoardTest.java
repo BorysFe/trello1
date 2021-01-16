@@ -12,6 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class NewBoardTest {
@@ -26,6 +27,11 @@ public class NewBoardTest {
         System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
                 "//chromedriver87.exe");
         driver = new ChromeDriver();
+    }
+
+    @BeforeMethod
+    public void openEnvironment() {
+        driver.get("https://trello.com");
     }
 
     @AfterMethod

@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class RegistrationTest {
@@ -21,6 +22,11 @@ public class RegistrationTest {
         System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
                 "//chromedriver87.exe");
         driver = new ChromeDriver();
+    }
+
+    @BeforeMethod
+    public void openEnvironment() {
+        driver.get("https://trello.com");
     }
 
     @AfterMethod
@@ -37,6 +43,8 @@ public class RegistrationTest {
     @Test
     public void privacyPolicyTextCheck() {
         RegistrationPage registrationPage = new RegistrationPage(driver);
+
+        registrationPage.openSignUpPage();
 
         Assert.assertEquals(registrationPage.getPrivacyPolicyText(), "By signing up, you confirm that you've read and" +
                 " accepted our Terms of Service " +

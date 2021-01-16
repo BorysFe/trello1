@@ -26,11 +26,10 @@ public class LogInPage {
 
     public LogInPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        driver.get("https://trello.com");
-        openLogInPageButton.click();
     }
 
     public void logInNewUser(String userEmail, String userPassword) {
+        openLogInPageButton.click();
         userField.sendKeys(userEmail);
         passwordField.sendKeys(userPassword);
         logInButton.click();
@@ -38,6 +37,7 @@ public class LogInPage {
     }
 
     public void logInWithEmail(String userEmail) {
+        openLogInPageButton.click();
         userField.sendKeys(userEmail);
         waitSeconds(3);
         logInButton.click();
