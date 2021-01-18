@@ -42,7 +42,7 @@ public class AuthorisationTest {
     public void authorizationValidTest() {
         LogInPage logInPage = new LogInPage(driver);
 
-        String emailUser = "fesenko.b@icloud.com";
+        String emailUser = "workboris3@gmail.com";
         String passwordUser = "B0r1sTr3ll0";
 
         logInPage.logInNewUser(emailUser, passwordUser);
@@ -68,5 +68,14 @@ public class AuthorisationTest {
         logInPage.logInWithEmail("Test@eeefef");
 
         Assert.assertEquals(logInPage.getTextErrorMessage(), "There isn't an account for this email");
+    }
+
+    @Test
+    public void logInButtonLocationCheck() {
+        LogInPage logInPage = new LogInPage(driver);
+
+        logInPage.openLogInPage();
+
+        Assert.assertEquals(logInPage.getLoginButtonLocation(), "(296, 332)");
     }
 }

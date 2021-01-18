@@ -36,7 +36,7 @@ public class RegistrationPage {
     @FindBy(className = "nch-select")
     private WebElement teamTypesDropdown;
 
-    @FindBy(xpath = ".//div[@id='react-select-2-option-0']/li")
+    @FindBy(xpath = ".//div[@id= 'react-select-2-option-0']/li")
     private WebElement firstTeamType;
 
     @FindBy(xpath = ".//button[@type= 'submit']")

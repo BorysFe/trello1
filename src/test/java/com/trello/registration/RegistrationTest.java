@@ -66,7 +66,9 @@ public class RegistrationTest {
     public void signUpNewUserValidScenario() {
         RegistrationPage registrationPage = new RegistrationPage(driver);
         String emailUser = String.format("workboris1+%s@gmail.com", System.currentTimeMillis());
+        System.out.println(emailUser);
         String passwordUser = String.format("qwERty%s", System.currentTimeMillis());
+        System.out.println(passwordUser);
         String nameUser = "Borys";
         String teamName = "My first test team";
 
