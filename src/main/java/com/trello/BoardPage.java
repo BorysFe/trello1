@@ -11,7 +11,7 @@ import java.util.List;
 
 public class BoardPage {
 
-    @FindBy(xpath = ".//button[contains(@aria-label, 'Open Member Menu')]")
+    @FindBy(xpath = ".//button[@aria-label= 'Open Member Menu']")
     private WebElement openMemberMenuButton;
 
     @FindBy(xpath = ".//button[contains(@aria-label, 'Open Member Menu')]")

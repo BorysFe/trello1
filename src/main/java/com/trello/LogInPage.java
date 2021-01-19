@@ -1,27 +1,29 @@
 package com.trello;
 
 import static com.trello.Waiters.waitSeconds;
+import static java.awt.Color.white;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 public class LogInPage {
 
-    @FindBy(linkText = "Log In")
+    @FindBy(xpath = ".//a[@href='/login']")
     private WebElement openLogInPageButton;
 
-    @FindBy(id = "user")
+    @FindBy(xpath = ".//input[@id= 'password']/../preceding-sibling::input")
     private WebElement userField;
 
-    @FindBy(id = "password")
+    @FindBy(xpath = ".//input[@id= 'password']")
     private WebElement passwordField;
 
-    @FindBy(id = "login")
+    @FindBy(xpath = ".//input[@id= 'password']/../../following-sibling::input")
     private WebElement logInButton;
 
-    @FindBy(id = "error")
+    @FindBy(xpath = ".//input[@id= 'password']/ancestor::div[count(*) > 1]//p")
     private WebElement errorMessage;
 
     public LogInPage(WebDriver driver) {
@@ -42,6 +44,15 @@ public class LogInPage {
         waitSeconds(3);
         logInButton.click();
         waitSeconds(3);
+    }
+
+    public void openLogInPage() {
+        openLogInPageButton.click();
+    }
+
+    public String getLoginButtonLocation() {
+        return logInButton.getLocation()
+                          .toString();
     }
 
     public String getTextErrorMessage() {

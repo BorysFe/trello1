@@ -9,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class RegistrationPage {
 
-    @FindBy(linkText = "Sign Up")
+    @FindBy(xpath = ".//a[@href='/signup']")
     private WebElement signUpLink;
 
     @FindBy(xpath = "//p[@class='quiet tos']")
@@ -33,10 +33,10 @@ public class RegistrationPage {
     @FindBy(xpath = ".//input[@id= 'moonshotCreateTeam']")
     private WebElement newTeamField;
 
-    @FindBy(className = "nch-select")
+    @FindBy(xpath = ".//div[@data-test-id= 'moonshot-team-type-select']")
     private WebElement teamTypesDropdown;
 
-    @FindBy(xpath = ".//div[@id='react-select-2-option-0']/li")
+    @FindBy(xpath = ".//div[@id= 'react-select-2-option-0']/li")
     private WebElement firstTeamType;
 
     @FindBy(xpath = ".//button[@type= 'submit']")
