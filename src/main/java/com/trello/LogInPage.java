@@ -1,6 +1,7 @@
 package com.trello;
 
 import static com.trello.Waiters.waitSeconds;
+import static java.awt.Color.white;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,8 +12,6 @@ import org.openqa.selenium.support.PageFactory;
 public class LogInPage {
 
     @FindBy(xpath = ".//a[@href='/login']")
-//    @FindBys({ @FindBy(xpath = ".//a[@href='/login']"), @FindBy(xpath = ".//a[@class= 'btn btn-sm btn-link
-//    text-white']") })
     private WebElement openLogInPageButton;
 
     @FindBy(xpath = ".//input[@id= 'password']/../preceding-sibling::input")
