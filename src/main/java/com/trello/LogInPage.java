@@ -1,15 +1,13 @@
 package com.trello;
 
-import static com.trello.Waiters.waitSeconds;
-import static java.awt.Color.white;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 public class LogInPage {
+
+    WaitUtils waitUtils;
 
     @FindBy(xpath = ".//a[@href='/login']")
     private WebElement openLogInPageButton;
@@ -28,22 +26,29 @@ public class LogInPage {
 
     public LogInPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
 
     public void logInNewUser(String userEmail, String userPassword) {
+        waitUtils.waitElementToBeClickableShort(openLogInPageButton);
         openLogInPageButton.click();
+        waitUtils.waitVisibilityOfElementLong(userField);
         userField.sendKeys(userEmail);
+        waitUtils.waitVisibilityOfElementShort(passwordField);
         passwordField.sendKeys(userPassword);
+        waitUtils.waitElementToBeClickableShort(logInButton);
         logInButton.click();
-        waitSeconds(4);
-    }
+        waitUtils.waitInvisibilityOfElementLong(logInButton);
+     }
 
     public void logInWithEmail(String userEmail) {
+        waitUtils.waitElementToBeClickableShort(openLogInPageButton);
         openLogInPageButton.click();
+        waitUtils.waitVisibilityOfElementLong(userField);
         userField.sendKeys(userEmail);
-        waitSeconds(3);
+        waitUtils.waitElementToBeClickableShort(logInButton);
         logInButton.click();
-        waitSeconds(3);
+        waitUtils.waitInvisibilityOfElementLong(logInButton);
     }
 
     public void openLogInPage() {
@@ -51,6 +56,7 @@ public class LogInPage {
     }
 
     public String getLoginButtonLocation() {
+        waitUtils.waitVisibilityOfElementShort(logInButton);
         return logInButton.getLocation()
                           .toString();
     }

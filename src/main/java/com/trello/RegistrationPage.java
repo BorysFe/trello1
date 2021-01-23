@@ -1,13 +1,12 @@
 package com.trello;
 
-import static com.trello.Waiters.waitSeconds;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class RegistrationPage {
+    WaitUtils waitUtils;
 
     @FindBy(xpath = ".//a[@href='/signup']")
     private WebElement signUpLink;
@@ -50,32 +49,46 @@ public class RegistrationPage {
 
     public RegistrationPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
 
     public void openSignUpPage() {
+        waitUtils.waitVisibilityOfElementLong(signUpLink);
         signUpLink.click();
-        waitSeconds(2);
+        waitUtils.waitInvisibilityOfElementLong(signUpLink);
     }
 
     public void setFirstSignUpPage(String userEmail) {
+        waitUtils.waitElementToBeClickableLong(signUpLink);
         signUpLink.click();
+        waitUtils.waitVisibilityOfElementLong(emailField);
         emailField.sendKeys(userEmail);
+        waitUtils.waitElementToBeClickableShort(continueFirstPageBtn);
         continueFirstPageBtn.submit();
-        waitSeconds(4);
+        waitUtils.waitInvisibilityOfElementShort(continueFirstPageBtn);
     }
 
     public void setSecondSignUpPage(String userName, String userPassword) {
+        waitUtils.waitVisibilityOfElementLong(signUpLink);
         nameField.sendKeys(userName);
+        waitUtils.waitVisibilityOfElementLong(signUpLink);
         passwordField.sendKeys(userPassword);
+        waitUtils.waitElementToBeClickableLong(signUpLink);
         continueSecondPageBtn.click();
+        waitUtils.waitInvisibilityOfElementShort(continueFirstPageBtn);
+
     }
 
     public void setThirdSignUpPage(String teamName) {
+        waitUtils.waitVisibilityOfElementLong(newTeamField);
         newTeamField.sendKeys(teamName);
+        waitUtils.waitVisibilityOfElementShort(newTeamField);
         teamTypesDropdown.click();
+        waitUtils.waitVisibilityOfElementShort(newTeamField);
         firstTeamType.click();
+        waitUtils.waitVisibilityOfElementShort(newTeamField);
         continueBtnOnTeamPage.click();
-        waitSeconds(4);
+        waitUtils.waitInvisibilityOfElementLong(continueFirstPageBtn);
     }
 
     public String getErrorMessage() {

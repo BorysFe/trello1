@@ -1,6 +1,6 @@
 package com.trello;
 
-import static com.trello.Waiters.*;
+import static com.trello.Utils.*;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +10,8 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class BoardPage {
+
+    WaitUtils waitUtils;
 
     @FindBy(xpath = ".//button[@aria-label= 'Open Member Menu']")
     private WebElement openMemberMenuButton;
@@ -63,6 +65,7 @@ public class BoardPage {
 
     public BoardPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
 
     public void logOutIfAuthorised() {
@@ -101,13 +104,13 @@ public class BoardPage {
     }
 
     public void closeBoard() {
-        waitSeconds(2);
+        waitUtils.waitElementToBeClickableLong(openMoreBtn);
         openMoreBtn.click();
-        waitSeconds(2);
+        waitUtils.waitElementToBeClickableShort(closeBoardBtn);
         closeBoardBtn.click();
-        waitSeconds(2);
+        waitUtils.waitElementToBeClickableShort(confirmationCloseBoardBtn);
         confirmationCloseBoardBtn.click();
-        waitSeconds(2);
+        waitUtils.waitInvisibilityOfElementShort(confirmationCloseBoardBtn);
     }
 
     public void deleteBoardPermanently() {
