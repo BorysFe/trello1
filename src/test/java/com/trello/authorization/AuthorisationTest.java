@@ -7,24 +7,31 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.concurrent.TimeUnit;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class AuthorisationTest {
 
-    private ChromeDriver driver;
+    public ChromeDriver driver;
 
-    @BeforeClass
-    public void webDriver() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
-                "//chromedriver87.exe");
-        driver = new ChromeDriver();
-    }
+
+
+//    @BeforeClass
+//    public void setUp() {
+//        WebDriverManager.chromedriver().setup();
+//        driver = new ChromeDriver();
+//    }
 
     @BeforeMethod
     public void openEnvironment() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
         driver.get("https://trello.com");
+        driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
     }
 
     @AfterMethod

@@ -1,6 +1,5 @@
 package com.trello.registration;
 
-import static com.trello.Waiters.waitSeconds;
 
 import com.trello.BoardPage;
 import com.trello.RegistrationPage;
@@ -57,7 +56,6 @@ public class RegistrationTest {
 
         String emailUser = "workboris1@gmail";
         registrationPage.setFirstSignUpPage(emailUser);
-        waitSeconds(3);
 
         Assert.assertEquals(registrationPage.getErrorMessage(), "Invalid email");
     }
@@ -75,7 +73,6 @@ public class RegistrationTest {
         registrationPage.setSecondSignUpPage(nameUser, passwordUser);
 // captcha
         registrationPage.setThirdSignUpPage(teamName);
-        waitSeconds(4);
 
         String textButton = registrationPage.getButtonText();
 
