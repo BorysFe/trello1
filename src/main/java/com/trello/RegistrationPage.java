@@ -55,7 +55,6 @@ public class RegistrationPage {
     public void openSignUpPage() {
         waitUtils.waitVisibilityOfElementLong(signUpLink);
         signUpLink.click();
-        waitUtils.waitInvisibilityOfElementLong(signUpLink);
     }
 
     public void setFirstSignUpPage(String userEmail) {
@@ -65,7 +64,6 @@ public class RegistrationPage {
         emailField.sendKeys(userEmail);
         waitUtils.waitElementToBeClickableShort(continueFirstPageBtn);
         continueFirstPageBtn.submit();
-        waitUtils.waitInvisibilityOfElementShort(continueFirstPageBtn);
     }
 
     public void setSecondSignUpPage(String userName, String userPassword) {
@@ -75,7 +73,6 @@ public class RegistrationPage {
         passwordField.sendKeys(userPassword);
         waitUtils.waitElementToBeClickableLong(signUpLink);
         continueSecondPageBtn.click();
-        waitUtils.waitInvisibilityOfElementShort(continueFirstPageBtn);
 
     }
 
@@ -88,18 +85,20 @@ public class RegistrationPage {
         firstTeamType.click();
         waitUtils.waitVisibilityOfElementShort(newTeamField);
         continueBtnOnTeamPage.click();
-        waitUtils.waitInvisibilityOfElementLong(continueFirstPageBtn);
     }
 
     public String getErrorMessage() {
+        waitUtils.waitVisibilityOfElementLong(errorMessage);
         return errorMessage.getText();
     }
 
     public String getPrivacyPolicyText() {
+        waitUtils.waitVisibilityOfElementShort(privacyPolicyText);
         return privacyPolicyText.getText();
     }
 
     public String getButtonText() {
+        waitUtils.waitVisibilityOfElementLong(trialBtn);
         return trialBtn.getText();
     }
 }

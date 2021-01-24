@@ -12,14 +12,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class RegistrationTest {
 
-    private ChromeDriver driver;
+    public ChromeDriver driver;
 
     @BeforeClass
     public void webDriver() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
-                "//chromedriver87.exe");
+        WebDriverManager.chromedriver()
+                        .setup();
         driver = new ChromeDriver();
     }
 

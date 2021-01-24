@@ -1,4 +1,4 @@
-Waut package com.trello;
+package com.trello;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +13,6 @@ public class WaitUtils {
     private WebDriver driver;
 
     private final int shortTimeout = 5;
-    private final int middleTimeout = 10;
     private final int longTimeout = 15;
 
     public WaitUtils(WebDriver driver) {
@@ -123,12 +122,4 @@ public class WaitUtils {
     public void waitElementToBeClickableLong(WebElement element) {
         waitElementToBeClickable(element, longTimeout);
     }
-
-    public void implicitlyWait() {
-
-    }
-//    Wait fluentWait = new FluentWait(WebElement reference)
-//            .withTimeout(Duration.ofSeconds(longTimeout))
-//            .pollingEvery(Duration.ofSeconds(shortTimeout))
-//            .ignoring(Exception.class);
 }

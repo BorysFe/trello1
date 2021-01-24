@@ -12,16 +12,16 @@ public class LogInPage {
     @FindBy(xpath = ".//a[@href='/login']")
     private WebElement openLogInPageButton;
 
-    @FindBy(xpath = ".//input[@id= 'password']/../preceding-sibling::input")
+    @FindBy(xpath = ".//input[@id= 'user']")
     private WebElement userField;
 
     @FindBy(xpath = ".//input[@id= 'password']")
     private WebElement passwordField;
 
-    @FindBy(xpath = ".//input[@id= 'password']/../../following-sibling::input")
+    @FindBy(xpath = ".//input[@id= 'login']")
     private WebElement logInButton;
 
-    @FindBy(xpath = ".//input[@id= 'password']/ancestor::div[count(*) > 1]//p")
+    @FindBy(xpath = ".//div[@id= 'error']")
     private WebElement errorMessage;
 
     public LogInPage(WebDriver driver) {
@@ -38,8 +38,7 @@ public class LogInPage {
         passwordField.sendKeys(userPassword);
         waitUtils.waitElementToBeClickableShort(logInButton);
         logInButton.click();
-        waitUtils.waitInvisibilityOfElementLong(logInButton);
-     }
+    }
 
     public void logInWithEmail(String userEmail) {
         waitUtils.waitElementToBeClickableShort(openLogInPageButton);
@@ -48,10 +47,10 @@ public class LogInPage {
         userField.sendKeys(userEmail);
         waitUtils.waitElementToBeClickableShort(logInButton);
         logInButton.click();
-        waitUtils.waitInvisibilityOfElementLong(logInButton);
     }
 
     public void openLogInPage() {
+        waitUtils.waitElementToBeClickableShort(openLogInPageButton);
         openLogInPageButton.click();
     }
 
@@ -62,6 +61,7 @@ public class LogInPage {
     }
 
     public String getTextErrorMessage() {
+        waitUtils.waitVisibilityOfElementLong(errorMessage);
         return errorMessage.getText();
     }
 }

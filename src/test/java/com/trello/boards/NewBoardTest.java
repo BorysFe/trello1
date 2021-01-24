@@ -11,21 +11,30 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class NewBoardTest {
 
-    private ChromeDriver driver;
+    public ChromeDriver driver;
     WaitUtils waitUtils;
 
     String emailUser = "fesenko.b@icloud.com";
     String passwordUser = "B0r1sTr3ll0";
 
+    @BeforeClass
+    public void webDriver() {
+        WebDriverManager.chromedriver()
+                        .setup();
+        driver = new ChromeDriver();
+    }
+
     @BeforeMethod
     public void openEnvironment() {
         driver.get("https://trello.com");
-        waitUtils = new WaitUtils(driver);
     }
 
     @AfterMethod
