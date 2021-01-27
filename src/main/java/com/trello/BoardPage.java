@@ -1,7 +1,7 @@
 package com.trello;
 
-import static com.trello.Waiters.*;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +10,8 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class BoardPage {
+
+    WaitUtils waitUtils;
 
     @FindBy(xpath = ".//button[@aria-label= 'Open Member Menu']")
     private WebElement openMemberMenuButton;
@@ -63,37 +65,40 @@ public class BoardPage {
 
     public BoardPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        waitUtils = new WaitUtils(driver);
     }
 
     public void logOutIfAuthorised() {
-         if (openMemberMenuList.size() > 0) {
-             if (openBoardsMenuButton.isDisplayed()) {
-                 logOutUser();
-             }
+        if (openMemberMenuList.size() > 0) {
+            if (openBoardsMenuButton.isDisplayed()) {
+                logOutUser();
+            }
         }
     }
 
     public void logOutUser() {
+        waitUtils.waitElementToBeClickableLong(openMemberMenuButton);
         openMemberMenuButton.click();
+        waitUtils.waitElementToBeClickableLong(menuLogOutLink);
         menuLogOutLink.click();
     }
 
     public void openMemberMenu() {
+        waitUtils.waitElementToBeClickableLong(openMemberMenuButton);
         openMemberMenuButton.click();
     }
 
     public void openBoardsMenu() {
+        waitUtils.waitElementToBeClickableLong(openBoardsMenuButton);
         openBoardsMenuButton.click();
     }
 
     public void addNewBoard(String newBoardTitle) {
         openBoardsMenuButton.click();
         newBoardLink.click();
-        waitSeconds(2);
         newBoardTitleField.clear();
         newBoardTitleField.sendKeys(newBoardTitle);
         newBoardSubmit.click();
-        waitSeconds(2);
     }
 
     public String getClosedBoardMessage() {
@@ -101,37 +106,41 @@ public class BoardPage {
     }
 
     public void closeBoard() {
-        waitSeconds(2);
+        waitUtils.waitElementToBeClickableLong(openMoreBtn);
         openMoreBtn.click();
-        waitSeconds(2);
+        waitUtils.waitElementToBeClickableShort(closeBoardBtn);
         closeBoardBtn.click();
-        waitSeconds(2);
+        waitUtils.waitElementToBeClickableShort(confirmationCloseBoardBtn);
         confirmationCloseBoardBtn.click();
-        waitSeconds(2);
+        waitUtils.waitInvisibilityOfElementShort(confirmationCloseBoardBtn);
     }
 
     public void deleteBoardPermanently() {
-        waitSeconds(2);
         closeBoard();
+        waitUtils.waitVisibilityOfElementShort(deleteBoard);
         deleteBoard.click();
-        waitSeconds(2);
+        waitUtils.waitVisibilityOfElementShort(confirmationDeleteBoardBtn);
         confirmationDeleteBoardBtn.click();
-        waitSeconds(2);
+        waitUtils.waitInvisibilityOfElementShort(confirmationDeleteBoardBtn);
     }
 
     public String getSearchFieldAttribute(String attributeName) {
+        waitUtils.waitVisibilityOfElementShort(searchField);
         return searchField.getAttribute(attributeName);
     }
 
     public String getBoardTitleAttribute(String attributeName) {
+        waitUtils.waitVisibilityOfElementShort(boardTitle);
         return boardTitle.getAttribute(attributeName);
     }
 
     public String getDeletedMessage() {
+        waitUtils.waitVisibilityOfElementLong(deleteBoardMessage);
         return deleteBoardMessage.getText();
     }
 
     public String getCustomUserBoardTitle(String boardTitle) {
+        waitUtils.waitVisibilityOfElementByLong(By.xpath(String.format(userBoard, boardTitle)));
         return String.format(userBoard, boardTitle);
     }
 }

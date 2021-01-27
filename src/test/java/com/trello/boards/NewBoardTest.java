@@ -2,7 +2,7 @@ package com.trello.boards;
 
 import com.trello.BoardPage;
 import com.trello.LogInPage;
-import com.trello.Waiters;
+import com.trello.WaitUtils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -15,17 +15,20 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class NewBoardTest {
 
-    private ChromeDriver driver;
+    public ChromeDriver driver;
+    WaitUtils waitUtils;
 
     String emailUser = "fesenko.b@icloud.com";
     String passwordUser = "B0r1sTr3ll0";
 
     @BeforeClass
     public void webDriver() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
-                "//chromedriver87.exe");
+        WebDriverManager.chromedriver()
+                        .setup();
         driver = new ChromeDriver();
     }
 
@@ -74,8 +77,7 @@ public class NewBoardTest {
         action.click(userBoard)
               .build()
               .perform();
-        Waiters.waitSeconds(2);
-
+        waitUtils.waitInvisibilityOfElementShort(userBoard);
         Assert.assertEquals(boardPage.getBoardTitleAttribute("value"), boardTitle, "The board title is wrong");
     }
 

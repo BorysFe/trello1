@@ -2,6 +2,7 @@ package com.trello.authorization;
 
 import com.trello.BoardPage;
 import com.trello.LogInPage;
+import com.trello.WaitUtils;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -11,14 +12,20 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class AuthorisationTest {
 
-    private ChromeDriver driver;
+    public ChromeDriver driver;
+    WaitUtils waitUtils;
+
+    String emailUser = "fesenko.b@icloud.com";
+    String passwordUser = "B0r1sTr3ll0";
 
     @BeforeClass
     public void webDriver() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
-                "//chromedriver87.exe");
+        WebDriverManager.chromedriver()
+                        .setup();
         driver = new ChromeDriver();
     }
 

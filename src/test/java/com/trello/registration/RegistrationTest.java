@@ -1,6 +1,5 @@
 package com.trello.registration;
 
-import static com.trello.Waiters.waitSeconds;
 
 import com.trello.BoardPage;
 import com.trello.RegistrationPage;
@@ -13,14 +12,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class RegistrationTest {
 
-    private ChromeDriver driver;
+    public ChromeDriver driver;
 
     @BeforeClass
     public void webDriver() {
-        System.setProperty("webdriver.chrome.driver", "C://Users//Office//Downloads//chromedriver_win32 (1)" +
-                "//chromedriver87.exe");
+        WebDriverManager.chromedriver()
+                        .setup();
         driver = new ChromeDriver();
     }
 
@@ -57,7 +58,6 @@ public class RegistrationTest {
 
         String emailUser = "workboris1@gmail";
         registrationPage.setFirstSignUpPage(emailUser);
-        waitSeconds(3);
 
         Assert.assertEquals(registrationPage.getErrorMessage(), "Invalid email");
     }
@@ -75,7 +75,6 @@ public class RegistrationTest {
         registrationPage.setSecondSignUpPage(nameUser, passwordUser);
 // captcha
         registrationPage.setThirdSignUpPage(teamName);
-        waitSeconds(4);
 
         String textButton = registrationPage.getButtonText();
 
