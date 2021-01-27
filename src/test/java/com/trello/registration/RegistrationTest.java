@@ -3,6 +3,7 @@ package com.trello.registration;
 
 import com.trello.BoardPage;
 import com.trello.RegistrationPage;
+import com.trello.WaitUtils;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -17,23 +18,27 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class RegistrationTest {
 
     public ChromeDriver driver;
+    private BoardPage boardPage;
+    private RegistrationPage registrationPage;
 
     @BeforeClass
     public void webDriver() {
         WebDriverManager.chromedriver()
                         .setup();
-        driver = new ChromeDriver();
     }
 
     @BeforeMethod
     public void openEnvironment() {
+        driver = new ChromeDriver();
         driver.get("https://trello.com");
+        boardPage = new BoardPage(driver);
+        registrationPage = new RegistrationPage(driver);
     }
 
     @AfterMethod
     public void signOffFromTrello() {
-        BoardPage boardPage = new BoardPage(driver);
         boardPage.logOutIfAuthorised();
+        driver.close();
     }
 
     @AfterClass
@@ -43,19 +48,14 @@ public class RegistrationTest {
 
     @Test
     public void privacyPolicyTextCheck() {
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-
         registrationPage.openSignUpPage();
 
         Assert.assertEquals(registrationPage.getPrivacyPolicyText(), "By signing up, you confirm that you've read and" +
-                " accepted our Terms of Service " +
-                "and Privacy Policy.");
+                " accepted our Terms of Service and Privacy Policy.");
     }
 
     @Test
     public void signUpNewUserInvalidEmail() {
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-
         String emailUser = "workboris1@gmail";
         registrationPage.setFirstSignUpPage(emailUser);
 
@@ -64,7 +64,6 @@ public class RegistrationTest {
 
     @Test
     public void signUpNewUserValidScenario() {
-        RegistrationPage registrationPage = new RegistrationPage(driver);
         String emailUser = String.format("workboris1+%s@gmail.com", System.currentTimeMillis());
         System.out.println(emailUser);
         String passwordUser = String.format("qwERty%s", System.currentTimeMillis());

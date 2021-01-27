@@ -37,17 +37,17 @@ public class WaitUtils {
         webDriverWait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
 
-    public void waitVisibilityOfElementShort(List<WebElement> elements) {
+    public void waitVisibilityOfElementsShort(List<WebElement> elements) {
         waitVisibilityOfListElements(elements, shortTimeout);
     }
 
-    public void waitVisibilityOfElementLong(List<WebElement> elements) {
+    public void waitVisibilityOfElementsLong(List<WebElement> elements) {
         waitVisibilityOfListElements(elements, longTimeout);
     }
 
     public void waitVisibilityOfElementBy(By element, int timeOut) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, timeOut);
-        webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(element));
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(element));
     }
 
     public void waitVisibilityOfElementByShort(By element) {
@@ -97,17 +97,17 @@ public class WaitUtils {
         waitInvisibilityOfListElements(elements, longTimeout);
     }
 
-    public void waitPresenceOfElementLocated (By element, int timeOut) {
+    public void waitPresenceOfElementByLocated(By element, int timeOut) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, timeOut);
         webDriverWait.until(ExpectedConditions.presenceOfElementLocated(element));
     }
 
-    public void waitPresenceOfElementShort(By element) {
-        waitPresenceOfElementLocated(element, shortTimeout);
+    public void waitPresenceOfElementByShort(By element) {
+        waitPresenceOfElementByLocated(element, shortTimeout);
     }
 
-    public void waitPresenceOfElementLong(By element) {
-        waitPresenceOfElementLocated(element, longTimeout);
+    public void waitPresenceOfElementByLong(By element) {
+        waitPresenceOfElementByLocated(element, longTimeout);
     }
 
     public void waitElementToBeClickable(WebElement element, int timeOut) {
@@ -121,5 +121,14 @@ public class WaitUtils {
 
     public void waitElementToBeClickableLong(WebElement element) {
         waitElementToBeClickable(element, longTimeout);
+    }
+
+    public boolean waitVisibilityOfElementBooleanShort(WebElement element) {
+        try {
+            waitVisibilityOfElementShort(element);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

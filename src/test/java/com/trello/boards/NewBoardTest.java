@@ -20,27 +20,30 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class NewBoardTest {
 
     public ChromeDriver driver;
-    WaitUtils waitUtils;
+    private LogInPage logInPage;
+    private BoardPage boardPage;
 
-    String emailUser = "fesenko.b@icloud.com";
+    String emailUser = "workboris4@gmail.com";
     String passwordUser = "B0r1sTr3ll0";
 
     @BeforeClass
     public void webDriver() {
         WebDriverManager.chromedriver()
                         .setup();
-        driver = new ChromeDriver();
     }
 
     @BeforeMethod
     public void openEnvironment() {
+        driver = new ChromeDriver();
         driver.get("https://trello.com");
+        logInPage = new LogInPage(driver);
+        boardPage = new BoardPage(driver);
     }
 
     @AfterMethod
     public void signOffFromTrello() {
-        BoardPage boardPage = new BoardPage(driver);
-        boardPage.logOutUser();
+        boardPage.logOutIfAuthorised();
+        driver.close();
     }
 
     @AfterClass
@@ -50,10 +53,8 @@ public class NewBoardTest {
 
     @Test
     public void searchBoardFieldCheck() {
-        LogInPage logInPage = new LogInPage(driver);
-        BoardPage boardPage = new BoardPage(driver);
-
         logInPage.logInNewUser(emailUser, passwordUser);
+        boardPage.openBoardsMenu();
 
         Assert.assertEquals(boardPage.getSearchFieldAttribute("placeholder"), "Find boards by name…", "Placeholder is" +
                 " wrong");
@@ -61,8 +62,6 @@ public class NewBoardTest {
 
     @Test
     public void userExistedBoardCheck() {
-        LogInPage logInPage = new LogInPage(driver);
-        BoardPage boardPage = new BoardPage(driver);
         Actions action = new Actions(driver);
 
         String boardTitle = "Borys Trello 1";
@@ -77,22 +76,18 @@ public class NewBoardTest {
         action.click(userBoard)
               .build()
               .perform();
-        waitUtils.waitInvisibilityOfElementShort(userBoard);
-        Assert.assertEquals(boardPage.getBoardTitleAttribute("value"), boardTitle, "The board title is wrong");
+        Assert.assertEquals(boardPage.getBoardTitleAttribute(), boardTitle, "The board title is wrong");
     }
 
     @Test
     public void addNewBoardCheck() {
-        LogInPage logInPage = new LogInPage(driver);
-        BoardPage boardPage = new BoardPage(driver);
-
         String newBoardTitle = "Auto test - " + System.currentTimeMillis();
 
         logInPage.logInNewUser(emailUser, passwordUser);
         boardPage.openMemberMenu();
         boardPage.addNewBoard(newBoardTitle);
 
-        Assert.assertEquals(boardPage.getBoardTitleAttribute("value"), newBoardTitle, "The board title is wrong");
+        Assert.assertEquals(boardPage.getBoardTitleAttribute(), newBoardTitle, "The board title is wrong");
 
         boardPage.closeBoard();
         Assert.assertEquals(boardPage.getClosedBoardMessage(), String.format("%s is closed.", newBoardTitle), "The " +
@@ -101,9 +96,6 @@ public class NewBoardTest {
 
     @Test
     public void permanentlyDeleteBoardCheck() {
-        LogInPage logInPage = new LogInPage(driver);
-        BoardPage boardPage = new BoardPage(driver);
-
         String newBoardTitle = String.format("Auto test - %s", System.currentTimeMillis());
 
         logInPage.logInNewUser(emailUser, passwordUser);

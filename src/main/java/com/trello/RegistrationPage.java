@@ -67,23 +67,22 @@ public class RegistrationPage {
     }
 
     public void setSecondSignUpPage(String userName, String userPassword) {
-        waitUtils.waitVisibilityOfElementLong(signUpLink);
+        waitUtils.waitVisibilityOfElementLong(nameField);
         nameField.sendKeys(userName);
-        waitUtils.waitVisibilityOfElementLong(signUpLink);
+        waitUtils.waitVisibilityOfElementLong(passwordField);
         passwordField.sendKeys(userPassword);
-        waitUtils.waitElementToBeClickableLong(signUpLink);
+        waitUtils.waitVisibilityOfElementShort(continueSecondPageBtn);
         continueSecondPageBtn.click();
-
     }
 
     public void setThirdSignUpPage(String teamName) {
         waitUtils.waitVisibilityOfElementLong(newTeamField);
         newTeamField.sendKeys(teamName);
-        waitUtils.waitVisibilityOfElementShort(newTeamField);
+        waitUtils.waitVisibilityOfElementShort(teamTypesDropdown);
         teamTypesDropdown.click();
-        waitUtils.waitVisibilityOfElementShort(newTeamField);
+        waitUtils.waitVisibilityOfElementShort(firstTeamType);
         firstTeamType.click();
-        waitUtils.waitVisibilityOfElementShort(newTeamField);
+        waitUtils.waitVisibilityOfElementShort(continueBtnOnTeamPage);
         continueBtnOnTeamPage.click();
     }
 
