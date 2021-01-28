@@ -46,7 +46,7 @@ public class NewBoardTest {
 
     @Test
     public void searchBoardFieldCheck() {
-        logInPage.logInNewUser(emailUser, passwordUser);
+        logInPage.loginUser(emailUser, passwordUser);
         boardPage.openBoardsMenu();
 
         Assert.assertEquals(boardPage.getSearchFieldAttribute("placeholder"), "Find boards by name…", "Placeholder is" +
@@ -59,7 +59,7 @@ public class NewBoardTest {
 
         String boardTitle = "Borys Trello 1";
 
-        logInPage.logInNewUser(emailUser, passwordUser);
+        logInPage.loginUser(emailUser, passwordUser);
         boardPage.openBoardsMenu();
 
         WebElement userBoard = driver.findElement(By.xpath(boardPage.getCustomUserBoardTitle(boardTitle)));
@@ -76,7 +76,7 @@ public class NewBoardTest {
     public void addNewBoardCheck() {
         String newBoardTitle = "Auto test - " + System.currentTimeMillis();
 
-        logInPage.logInNewUser(emailUser, passwordUser);
+        logInPage.loginUser(emailUser, passwordUser);
         boardPage.openMemberMenu();
         boardPage.addNewBoard(newBoardTitle);
 
@@ -91,7 +91,7 @@ public class NewBoardTest {
     public void permanentlyDeleteBoardCheck() {
         String newBoardTitle = String.format("Auto test - %s", System.currentTimeMillis());
 
-        logInPage.logInNewUser(emailUser, passwordUser);
+        logInPage.loginUser(emailUser, passwordUser);
         boardPage.openMemberMenu();
         boardPage.addNewBoard(newBoardTitle);
         boardPage.deleteBoardPermanently();

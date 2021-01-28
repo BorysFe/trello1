@@ -47,7 +47,7 @@ public class AuthorisationTest {
 
     @Test
     public void authorizationValidTest() {
-        logInPage.logInNewUser(user);
+        logInPage.loginUser(user);
 
         Assert.assertEquals(boardPage.getTeamBoardTitle(), "Most popular templates");
     }
@@ -55,7 +55,7 @@ public class AuthorisationTest {
     @Test
     public void emptyFieldsTest() {
         User emptyFields = new User("", "");
-        logInPage.logInNewUser(emptyFields);
+        logInPage.loginUser(emptyFields);
 
         Assert.assertEquals(logInPage.getTextErrorMessage(), "Missing email");
     }
@@ -63,7 +63,7 @@ public class AuthorisationTest {
     @Test
     public void incorrectEmailTest() {
         User invalidUser = new User("test@qwdqwdqw", "");
-        logInPage.logInNewUser(invalidUser);
+        logInPage.loginUser(invalidUser);
 
         Assert.assertEquals(logInPage.getTextErrorMessage(), "There isn't an account for this email");
     }

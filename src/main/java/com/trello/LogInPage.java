@@ -43,7 +43,7 @@ public class LogInPage {
                    .openLogInPage();
     }
 
-    public void logInNewUser(String userEmail, String userPassword) {
+    public void loginUser(String userEmail, String userPassword) {
 
         waitUtils.waitElementToBeClickableShort(openLogInPageButton);
         openLogInPageButton.click();
@@ -63,7 +63,7 @@ public class LogInPage {
         }
     }
 
-    public void logInNewUser(User user) {
+    public void loginUser(User user) {
         waitUtils.waitVisibilityOfElementLong(userField);
         userField.sendKeys(user.getUserLogin());
         if (waitUtils.isElementVisibleShortTimeout(loginBtnAtlassian)) {
