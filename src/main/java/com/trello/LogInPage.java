@@ -49,7 +49,7 @@ public class LogInPage {
         openLogInPageButton.click();
         waitUtils.waitVisibilityOfElementLong(userField);
         userField.sendKeys(userEmail);
-        if (waitUtils.waitVisibilityOfElementBooleanShort(loginBtnAtlassian)) {
+        if (waitUtils.isElementVisibleShortTimeout(loginBtnAtlassian)) {
             loginBtnAtlassian.click();
             waitUtils.waitVisibilityOfElementShort(passwordField);
             passwordField.sendKeys(userPassword);
@@ -63,10 +63,10 @@ public class LogInPage {
         }
     }
 
-    public void logInNewUserFactory(User user) {
+    public void logInNewUser(User user) {
         waitUtils.waitVisibilityOfElementLong(userField);
         userField.sendKeys(user.getUserLogin());
-        if (waitUtils.waitVisibilityOfElementBooleanShort(loginBtnAtlassian)) {
+        if (waitUtils.isElementVisibleShortTimeout(loginBtnAtlassian)) {
             loginBtnAtlassian.click();
             waitUtils.waitVisibilityOfElementShort(passwordField);
             passwordField.sendKeys(user.getUserPassword());

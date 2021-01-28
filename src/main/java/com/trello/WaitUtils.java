@@ -123,7 +123,7 @@ public class WaitUtils {
         waitElementToBeClickable(element, longTimeout);
     }
 
-    public boolean waitVisibilityOfElementBooleanShort(WebElement element) {
+    public boolean isElementVisibleShortTimeout(WebElement element) {
         try {
             waitVisibilityOfElementShort(element);
             return true;
@@ -132,3 +132,4 @@ public class WaitUtils {
         }
     }
 }
+

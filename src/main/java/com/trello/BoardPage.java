@@ -131,7 +131,6 @@ public class BoardPage {
         deleteBoard.click();
         waitUtils.waitVisibilityOfElementShort(confirmationDeleteBoardBtn);
         confirmationDeleteBoardBtn.click();
-
         waitUtils.waitVisibilityOfElementLong(textAfterDeleteBoard);
     }
 
@@ -140,7 +139,7 @@ public class BoardPage {
         return searchField.getAttribute(attributeName);
     }
 
-    public String getBoardTitleAttribute() {
+    public String getBoardTitleText() {
         waitUtils.waitVisibilityOfElementShort(boardTitle);
         return boardTitle.getText();
     }

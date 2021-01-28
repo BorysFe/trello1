@@ -3,11 +3,9 @@ package com.trello.registration;
 
 import com.trello.BoardPage;
 import com.trello.RegistrationPage;
-import com.trello.WaitUtils;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -38,11 +36,6 @@ public class RegistrationTest {
     @AfterMethod
     public void signOffFromTrello() {
         boardPage.logOutIfAuthorised();
-        driver.close();
-    }
-
-    @AfterClass
-    public void browserQuit() {
         driver.quit();
     }
 

@@ -100,4 +100,7 @@ public class RegistrationPage {
         waitUtils.waitVisibilityOfElementLong(trialBtn);
         return trialBtn.getText();
     }
+
+//    @DataProvider
+    
 }

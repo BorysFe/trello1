@@ -2,14 +2,12 @@ package com.trello.boards;
 
 import com.trello.BoardPage;
 import com.trello.LogInPage;
-import com.trello.WaitUtils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -43,11 +41,6 @@ public class NewBoardTest {
     @AfterMethod
     public void signOffFromTrello() {
         boardPage.logOutIfAuthorised();
-        driver.close();
-    }
-
-    @AfterClass
-    public void browserQuit() {
         driver.quit();
     }
 
@@ -76,7 +69,7 @@ public class NewBoardTest {
         action.click(userBoard)
               .build()
               .perform();
-        Assert.assertEquals(boardPage.getBoardTitleAttribute(), boardTitle, "The board title is wrong");
+        Assert.assertEquals(boardPage.getBoardTitleText(), boardTitle, "The board title is wrong");
     }
 
     @Test
@@ -87,7 +80,7 @@ public class NewBoardTest {
         boardPage.openMemberMenu();
         boardPage.addNewBoard(newBoardTitle);
 
-        Assert.assertEquals(boardPage.getBoardTitleAttribute(), newBoardTitle, "The board title is wrong");
+        Assert.assertEquals(boardPage.getBoardTitleText(), newBoardTitle, "The board title is wrong");
 
         boardPage.closeBoard();
         Assert.assertEquals(boardPage.getClosedBoardMessage(), String.format("%s is closed.", newBoardTitle), "The " +

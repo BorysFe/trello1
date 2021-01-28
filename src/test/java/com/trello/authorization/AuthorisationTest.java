@@ -6,7 +6,6 @@ import com.trello.User;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -38,23 +37,17 @@ public class AuthorisationTest {
         logInPage = new LogInPage(driver);
         boardPage = new BoardPage(driver);
         logInPage.openLoginPageFactory(driver);
-
     }
 
     @AfterMethod
     public void signOffFromTrello() {
         boardPage.logOutIfAuthorised();
-        driver.close();
-    }
-
-    @AfterClass
-    public void browserQuit() {
         driver.quit();
     }
 
     @Test
     public void authorizationValidTest() {
-        logInPage.logInNewUserFactory(user);
+        logInPage.logInNewUser(user);
 
         Assert.assertEquals(boardPage.getTeamBoardTitle(), "Most popular templates");
     }
@@ -62,7 +55,7 @@ public class AuthorisationTest {
     @Test
     public void emptyFieldsTest() {
         User emptyFields = new User("", "");
-        logInPage.logInNewUserFactory(emptyFields);
+        logInPage.logInNewUser(emptyFields);
 
         Assert.assertEquals(logInPage.getTextErrorMessage(), "Missing email");
     }
@@ -70,7 +63,7 @@ public class AuthorisationTest {
     @Test
     public void incorrectEmailTest() {
         User invalidUser = new User("test@qwdqwdqw", "");
-        logInPage.logInNewUserFactory(invalidUser);
+        logInPage.logInNewUser(invalidUser);
 
         Assert.assertEquals(logInPage.getTextErrorMessage(), "There isn't an account for this email");
     }
