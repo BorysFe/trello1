@@ -2,11 +2,10 @@ package com.trello.authorization;
 
 import com.trello.BoardPage;
 import com.trello.LogInPage;
-import com.trello.WaitUtils;
+import com.trello.User;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -17,71 +16,60 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class AuthorisationTest {
 
     public ChromeDriver driver;
-    WaitUtils waitUtils;
+    private LogInPage logInPage;
+    private BoardPage boardPage;
+    private User user;
 
-    String emailUser = "fesenko.b@icloud.com";
-    String passwordUser = "B0r1sTr3ll0";
+    String userEmail = "workboris3@gmail.com";
+    String userPassword = "B0r1sTr3ll0";
 
     @BeforeClass
     public void webDriver() {
         WebDriverManager.chromedriver()
                         .setup();
-        driver = new ChromeDriver();
+        user = new User(userEmail, userPassword);
     }
 
     @BeforeMethod
     public void openEnvironment() {
+        driver = new ChromeDriver();
         driver.get("https://trello.com");
+        logInPage = new LogInPage(driver);
+        boardPage = new BoardPage(driver);
+        logInPage.openLoginPageFactory(driver);
     }
 
     @AfterMethod
     public void signOffFromTrello() {
-        BoardPage boardPage = new BoardPage(driver);
         boardPage.logOutIfAuthorised();
-    }
-
-    @AfterClass
-    public void browserQuit() {
         driver.quit();
     }
 
     @Test
     public void authorizationValidTest() {
-        LogInPage logInPage = new LogInPage(driver);
+        logInPage.loginUser(user);
 
-        String emailUser = "workboris3@gmail.com";
-        String passwordUser = "B0r1sTr3ll0";
-
-        logInPage.logInNewUser(emailUser, passwordUser);
-
-        String title = driver.getTitle();
-        Assert.assertEquals(title, "Boards | Trello");
+        Assert.assertEquals(boardPage.getTeamBoardTitle(), "Most popular templates");
     }
 
     @Test
     public void emptyFieldsTest() {
-        LogInPage logInPage = new LogInPage(driver);
+        User emptyFields = new User("", "");
+        logInPage.loginUser(emptyFields);
 
-        logInPage.logInNewUser("", "");
-
-        String message = logInPage.getTextErrorMessage();
-        Assert.assertEquals(message, "Missing email");
+        Assert.assertEquals(logInPage.getTextErrorMessage(), "Missing email");
     }
 
     @Test
     public void incorrectEmailTest() {
-        LogInPage logInPage = new LogInPage(driver);
-
-        logInPage.logInWithEmail("Test@eeefef");
+        User invalidUser = new User("test@qwdqwdqw", "");
+        logInPage.loginUser(invalidUser);
 
         Assert.assertEquals(logInPage.getTextErrorMessage(), "There isn't an account for this email");
     }
 
     @Test
     public void logInButtonLocationCheck() {
-        LogInPage logInPage = new LogInPage(driver);
-
-        logInPage.openLogInPage();
 
         Assert.assertEquals(logInPage.getLoginButtonLocation(), "(296, 332)");
     }

@@ -37,7 +37,7 @@ public class BoardPage {
     @FindBy(xpath = ".//button[@data-test-id='create-board-submit-button']")
     private WebElement newBoardSubmit;
 
-    @FindBy(xpath = ".//input[@class= 'board-name-input js-board-name-input']")
+    @FindBy(xpath = ".//h1[@class= 'js-board-editing-target board-header-btn-text']")
     private WebElement boardTitle;
 
     @FindBy(xpath = ".//a[@class='board-menu-navigation-item-link js-open-more']")
@@ -52,6 +52,9 @@ public class BoardPage {
     @FindBy(xpath = ".//div[@class='big-message quiet closed-board']//h1")
     private WebElement closeBoardMessage;
 
+    @FindBy(xpath = ".//div[@class= 'js-react-root']//p")
+    private WebElement textAfterDeleteBoard;
+
     @FindBy(xpath = ".//a[@class='quiet js-delete']")
     private WebElement deleteBoard;
 
@@ -60,6 +63,9 @@ public class BoardPage {
 
     @FindBy(xpath = ".//div[@class= 'js-react-root']//h1")
     private WebElement deleteBoardMessage;
+
+    @FindBy(xpath = ".//span[@aria-label= 'TemplateBoardIcon']/../following-sibling::h2")
+    private WebElement mostPopularTemplatesTitle;
 
     private final String userBoard = ".//a[@title= '%s']";
 
@@ -84,7 +90,7 @@ public class BoardPage {
     }
 
     public void openMemberMenu() {
-        waitUtils.waitElementToBeClickableLong(openMemberMenuButton);
+        waitUtils.waitVisibilityOfElementLong(openBoardsMenuButton);
         openMemberMenuButton.click();
     }
 
@@ -95,13 +101,18 @@ public class BoardPage {
 
     public void addNewBoard(String newBoardTitle) {
         openBoardsMenuButton.click();
+        waitUtils.waitElementToBeClickableShort(newBoardLink);
         newBoardLink.click();
+        waitUtils.waitVisibilityOfElementShort(newBoardTitleField);
         newBoardTitleField.clear();
+        waitUtils.waitVisibilityOfElementShort(newBoardTitleField);
         newBoardTitleField.sendKeys(newBoardTitle);
+        waitUtils.waitElementToBeClickableLong(newBoardSubmit);
         newBoardSubmit.click();
     }
 
     public String getClosedBoardMessage() {
+        waitUtils.waitVisibilityOfElementShort(closeBoardMessage);
         return closeBoardMessage.getText();
     }
 
@@ -112,16 +123,15 @@ public class BoardPage {
         closeBoardBtn.click();
         waitUtils.waitElementToBeClickableShort(confirmationCloseBoardBtn);
         confirmationCloseBoardBtn.click();
-        waitUtils.waitInvisibilityOfElementShort(confirmationCloseBoardBtn);
     }
 
     public void deleteBoardPermanently() {
         closeBoard();
-        waitUtils.waitVisibilityOfElementShort(deleteBoard);
+        waitUtils.waitVisibilityOfElementLong(deleteBoard);
         deleteBoard.click();
         waitUtils.waitVisibilityOfElementShort(confirmationDeleteBoardBtn);
         confirmationDeleteBoardBtn.click();
-        waitUtils.waitInvisibilityOfElementShort(confirmationDeleteBoardBtn);
+        waitUtils.waitVisibilityOfElementLong(textAfterDeleteBoard);
     }
 
     public String getSearchFieldAttribute(String attributeName) {
@@ -129,9 +139,9 @@ public class BoardPage {
         return searchField.getAttribute(attributeName);
     }
 
-    public String getBoardTitleAttribute(String attributeName) {
+    public String getBoardTitleText() {
         waitUtils.waitVisibilityOfElementShort(boardTitle);
-        return boardTitle.getAttribute(attributeName);
+        return boardTitle.getText();
     }
 
     public String getDeletedMessage() {
@@ -142,5 +152,10 @@ public class BoardPage {
     public String getCustomUserBoardTitle(String boardTitle) {
         waitUtils.waitVisibilityOfElementByLong(By.xpath(String.format(userBoard, boardTitle)));
         return String.format(userBoard, boardTitle);
+    }
+
+    public String getTeamBoardTitle() {
+        waitUtils.waitVisibilityOfElementLong(mostPopularTemplatesTitle);
+        return mostPopularTemplatesTitle.getText();
     }
 }
