@@ -9,40 +9,27 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class LoginStepDefs {
     public ChromeDriver driver;
     private LogInPage logInPage;
     private BoardPage boardPage;
 
-    @Before
-    public void fffff() {
-        WebDriverManager.chromedriver()
-                        .setup();
-        driver = new ChromeDriver();
+    @BeforeStep
+    public void openMainPage() {
         logInPage = new LogInPage(driver);
         boardPage = new BoardPage(driver);
-        driver.get("https://trello.com");
     }
 
-    @Given("I launch chrome browser")
-    public void i_launch_chrome_browser() {
-        logInPage.openLogInPage();
-    }
-
-    @When("I open site {string} homepage")
-    public void OpenSiteHomepage(String arg0) {
-        logInPage.openLogInPage();
-    }
-
-    @And("Open login Page")
+    @Given("Open login Page")
     public void open_Page() {
-        logInPage.openLogInPage();
+        driver = new ChromeDriver();
+//        driver.get("https://trello.com");
+//        logInPage.openLogInPage();
     }
 
     @And("Set login fields with login {string} and password {string}")

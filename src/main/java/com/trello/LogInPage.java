@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 public class LogInPage {
 
     WaitUtils waitUtils;
+    public WebDriver driver;
 
     @FindBy(xpath = ".//a[@href='/login']")
     private WebElement openLogInPageButton;
@@ -45,8 +46,6 @@ public class LogInPage {
 
     public void loginUser(String userEmail, String userPassword) {
 
-        waitUtils.waitElementToBeClickableShort(openLogInPageButton);
-        openLogInPageButton.click();
         waitUtils.waitVisibilityOfElementLong(userField);
         userField.sendKeys(userEmail);
         if (waitUtils.isElementVisibleShortTimeout(loginBtnAtlassian)) {

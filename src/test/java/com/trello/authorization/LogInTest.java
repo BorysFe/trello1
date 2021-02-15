@@ -4,6 +4,8 @@ import com.trello.BoardPage;
 import com.trello.LogInPage;
 import com.trello.User;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -13,7 +15,7 @@ import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class AuthorisationTest {
+public class LogInTest {
 
     public ChromeDriver driver;
     private LogInPage logInPage;
@@ -70,7 +72,6 @@ public class AuthorisationTest {
 
     @Test
     public void logInButtonLocationCheck() {
-
         Assert.assertEquals(logInPage.getLoginButtonLocation(), "(296, 332)");
     }
 }

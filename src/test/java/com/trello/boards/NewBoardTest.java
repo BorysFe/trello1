@@ -36,6 +36,8 @@ public class NewBoardTest {
         driver.get("https://trello.com");
         logInPage = new LogInPage(driver);
         boardPage = new BoardPage(driver);
+
+        logInPage.openLogInPage();
     }
 
     @AfterMethod
@@ -46,10 +48,11 @@ public class NewBoardTest {
 
     @Test
     public void searchBoardFieldCheck() {
+
         logInPage.loginUser(emailUser, passwordUser);
         boardPage.openBoardsMenu();
 
-        Assert.assertEquals(boardPage.getSearchFieldAttribute("placeholder"), "Find boards by name…", "Placeholder is" +
+        Assert.assertEquals(boardPage.getSearchFieldAttribute("placeholder"), "Find boards by name…", "Text is" +
                 " wrong");
     }
 
